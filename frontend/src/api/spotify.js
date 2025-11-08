@@ -99,6 +99,33 @@ export const queueAPI = {
     })
     return data
   },
+
+  // Smart Auto-Sort
+  smartSortTrack: async (trackId, spotifyId) => {
+    const { data } = await apiClient.post('/queues/smart-sort-track', null, {
+      params: { track_id: trackId, spotify_id: spotifyId },
+    })
+    return data
+  },
+
+  enableAutoSort: async (spotifyId) => {
+    const { data } = await apiClient.post('/queues/enable-auto-sort', null, {
+      params: { spotify_id: spotifyId },
+    })
+    return data
+  },
+
+  disableAutoSort: async (spotifyId) => {
+    const { data } = await apiClient.post('/queues/disable-auto-sort', null, {
+      params: { spotify_id: spotifyId },
+    })
+    return data
+  },
+
+  getAutoSortStatus: async (spotifyId) => {
+    const { data } = await apiClient.get(`/queues/auto-sort-status/${spotifyId}`)
+    return data
+  },
 }
 
 export const aiAPI = {
@@ -117,3 +144,34 @@ export const aiAPI = {
   },
 }
 
+export const automationAPI = {
+  autoSortSongs: async (spotifyId, limit = 50) => {
+    const { data } = await apiClient.post('/automation/auto-sort-songs', null, {
+      params: { spotify_id: spotifyId, limit },
+    })
+    return data
+  },
+
+  refreshAllPlaylists: async (spotifyId) => {
+    const { data } = await apiClient.post('/automation/refresh-playlists', null, {
+      params: { spotify_id: spotifyId },
+    })
+    return data
+  },
+
+  refreshPlaylist: async (playlistId, genre, spotifyId) => {
+    const { data } = await apiClient.post(
+      `/automation/refresh-playlist/${playlistId}`,
+      null,
+      {
+        params: { genre, spotify_id: spotifyId },
+      }
+    )
+    return data
+  },
+
+  getGenrePlaylists: async (spotifyId) => {
+    const { data } = await apiClient.get(`/automation/genre-playlists/${spotifyId}`)
+    return data
+  },
+}
